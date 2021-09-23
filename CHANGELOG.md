@@ -1,5 +1,5 @@
 ## [Unreleased]
-*no unreleased changes*
+* Display line breaks for readonly textarea fields
 
 ## 3.2.0 / 2021-05-10
 ### Fixed
