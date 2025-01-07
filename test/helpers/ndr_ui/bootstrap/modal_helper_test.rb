@@ -32,11 +32,11 @@ module NdrUi
         assert_select 'div.modal-header' do
           assert_select 'button',
                         attributes: {
-                          type: 'button', class: 'close', "data-dismiss": 'modal',
-                          "aria-label": 'Close'
+                          type: 'button', class: 'btn-close', 'data-bs-dismiss': 'modal',
+                          'aria-label': 'Close'
                         } do
             assert_select 'span',
-                          attributes: { "aria-hidden": 'true' },
+                          attributes: { 'aria-hidden': 'true' },
                           text: Nokogiri::HTML.parse('&times;').text
           end
           assert_select 'h4.modal-title', 'Check it out!!'
@@ -55,7 +55,7 @@ module NdrUi
         @output_buffer = bootstrap_modal_footer_tag('Non-readonly button text', readonly: true)
         assert_select 'div.modal-footer' do
           assert_select 'button.btn.btn-default',
-                        attributes: { "data-dismiss": 'modal' },
+                        attributes: { 'data-bs-dismiss': 'modal' },
                         text: 'Close'
         end
 
@@ -63,33 +63,33 @@ module NdrUi
         @output_buffer = bootstrap_modal_footer_tag('Non-readonly button text', readonly: false)
         assert_select 'div.modal-footer' do
           assert_select 'button.btn.btn-default',
-                        attributes: { "data-dismiss": 'modal' },
+                        attributes: { 'data-bs-dismiss': 'modal' },
                         text: 'Non-readonly button text'
         end
       end
 
       test 'bootstrap_modal_footer_tag with block content' do
         @output_buffer = bootstrap_modal_footer_tag(readonly: true) do
-          button_tag('Non-readonly default', class: 'btn btn-default', "data-dismiss": 'modal') +
-            button_tag('Non-readonly primary', class: 'btn btn-primary', "data-dismiss": 'modal')
+          button_tag('Non-readonly default', class: 'btn btn-default', 'data-bs-dismiss': 'modal') +
+            button_tag('Non-readonly primary', class: 'btn btn-primary', 'data-bs-dismiss': 'modal')
         end
         assert_select 'div.modal-footer' do
           assert_select 'button.btn.btn-default',
-                        attributes: { "data-dismiss": 'modal' },
+                        attributes: { 'data-bs-dismiss': 'modal' },
                         text: 'Close'
         end
 
         reset_output_buffer!
         @output_buffer = bootstrap_modal_footer_tag(readonly: false) do
-          button_tag('Non-readonly default', class: 'btn btn-default', "data-dismiss": 'modal') +
-            button_tag('Non-readonly primary', class: 'btn btn-primary', "data-dismiss": 'modal')
+          button_tag('Non-readonly default', class: 'btn btn-default', 'data-bs-dismiss': 'modal') +
+            button_tag('Non-readonly primary', class: 'btn btn-primary', 'data-bs-dismiss': 'modal')
         end
         assert_select 'div.modal-footer' do
           assert_select 'button.btn.btn-default',
-                        attributes: { "data-dismiss": 'modal' },
+                        attributes: { 'data-bs-dismiss': 'modal' },
                         text: 'Non-readonly default'
           assert_select 'button.btn.btn-primary',
-                        attributes: { "data-dismiss": 'modal' },
+                        attributes: { 'data-bs-dismiss': 'modal' },
                         text: 'Non-readonly primary'
         end
       end
@@ -98,7 +98,7 @@ module NdrUi
         @output_buffer = bootstrap_modal_footer_tag(readonly: true)
         assert_select 'div.modal-footer' do
           assert_select 'button.btn.btn-default',
-                        attributes: { "data-dismiss": 'modal' },
+                        attributes: { 'data-bs-dismiss': 'modal' },
                         text: 'Close'
         end
 
@@ -106,10 +106,10 @@ module NdrUi
         @output_buffer = bootstrap_modal_footer_tag(readonly: false)
         assert_select 'div.modal-footer' do
           assert_select 'button.btn.btn-default',
-                        attributes: { "data-dismiss": 'modal' },
+                        attributes: { 'data-bs-dismiss': 'modal' },
                         html: /Don(.*?)t save/ # assert_select behaviour changes
           assert_select 'input.btn.btn-primary',
-                        attributes: { type: 'submit', "data-dismiss": 'modal' },
+                        attributes: { type: 'submit', 'data-bs-dismiss': 'modal' },
                         value: 'Save'
         end
       end
@@ -122,7 +122,7 @@ module NdrUi
             assert_select 'div.modal-body', 'Pear form'
             assert_select 'div.modal-footer' do
               assert_select 'button',
-                            attributes: { class: 'btn btn-default', "data-dismiss": 'modal' },
+                            attributes: { class: 'btn btn-default', 'data-bs-dismiss': 'modal' },
                             html: /Don(.*?)t save/ # assert_select behaviour changes
               assert_select 'input.btn.btn-primary[type=submit]'
             end
@@ -137,7 +137,7 @@ module NdrUi
             assert_select 'div.modal-body', 'Pear form'
             assert_select 'div.modal-footer' do
               # assert_select behaviour changes:
-              assert_select 'button.btn.btn-default[data-dismiss=modal]', html: /Don(.*?)t save/
+              assert_select 'button.btn.btn-default[data-bs-dismiss=modal]', html: /Don(.*?)t save/
               assert_select 'input.btn.btn-primary[type=submit]'
             end
           end
@@ -151,7 +151,7 @@ module NdrUi
             assert_select 'div.modal-header h4', 'New Pear'
             assert_select 'div.modal-body', 'Pear form'
             assert_select 'div.modal-footer' do
-              assert_select 'button.btn.btn-default[data-dismiss=modal]', html: 'Close'
+              assert_select 'button.btn.btn-default[data-bs-dismiss=modal]', html: 'Close'
             end
           end
         end
@@ -164,7 +164,7 @@ module NdrUi
             assert_select 'div.modal-body', 'Pear form'
             assert_select 'div.modal-footer' do
               # assert_select behaviour changes:
-              assert_select 'button.btn.btn-default[data-dismiss=modal]', html: /Don(.*?)t save/
+              assert_select 'button.btn.btn-default[data-bs-dismiss=modal]', html: /Don(.*?)t save/
               assert_select 'input.btn.btn-primary[type=submit]'
             end
           end

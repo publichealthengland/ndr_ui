@@ -1,6 +1,7 @@
-require 'bootstrap-sass/engine'
+require 'bootstrap/engine'
 require 'jquery-rails'
 require 'sprockets/railtie'
+require 'popper_js'
 
 module NdrUi
   # This is where we define the base class for the engine

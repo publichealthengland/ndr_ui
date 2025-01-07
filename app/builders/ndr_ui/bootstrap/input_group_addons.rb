@@ -1,6 +1,6 @@
 module NdrUi
   module Bootstrap
-    # Provides form builder method for Bootstrap input-group-addon
+    # Provides form builder method for Bootstrap input-group-text
     module InputGroupAddons
       # Identical signature to ActionView::Helpers::FormBuilder#text_field, but adds
       # <tt>:prepend</tt> and <tt>:append</tt> options to prepend and append text to
@@ -12,17 +12,11 @@ module NdrUi
         append = options.delete('append')
 
         return super if prepend.blank? && append.blank?
+
         div_content = []
-
-        unless prepend.blank?
-          div_content << @template.content_tag(:span, prepend, class: 'input-group-addon')
-        end
-
+        div_content << @template.content_tag(:span, prepend, class: 'input-group-text') if prepend.present?
         div_content << text_field_without_inline_errors(method, options)
-
-        unless append.blank?
-          div_content << @template.content_tag(:span, append, class: 'input-group-addon')
-        end
+        div_content << @template.content_tag(:span, append, class: 'input-group-text') if append.present?
 
         @template.content_tag(:div, @template.safe_join(div_content), class: 'input-group')
       end

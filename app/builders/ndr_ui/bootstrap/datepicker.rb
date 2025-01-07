@@ -14,11 +14,11 @@ module NdrUi
       #  # => <div class="input-group date" data-provide="datepicker" data-date-end-date="0d">
       #         <input class="form-control" type="text"
       #           name="post[last_updated]" id="post_last_updated" />
-      #         <span aria-hidden="true" class="input-group-addon">
+      #         <span aria-hidden="true" class="input-group-text">
       #           <span class="glyphicon glyphicon-calendar"></span>
       #         </span>
       #       </div>
-      #       <span class="help-block" data-feedback-for="post_last_updated">
+      #       <span class="form-text" data-feedback-for="post_last_updated">
       #         <span class="text-danger"></span><span class="text-warning"></span>
       #       </span>
       #
@@ -37,7 +37,7 @@ module NdrUi
 
       # This method returns the date input-group and inline errors and warnings.
       # The errors and warnings are appended after the group to avoid messing up the
-      # input-group-addon calendar icon.
+      # input-group-text calendar icon.
       def date_input_group(method, options)
         data = { provide: 'datepicker' }
         data[:'date-end-date'] = '0d' if options.delete(:no_future)
@@ -50,7 +50,7 @@ module NdrUi
           html +
             @template.content_tag(:span,
                                   @template.bootstrap_icon_tag(:calendar),
-                                  'aria-hidden': 'true', class: 'input-group-addon')
+                                  'aria-hidden': 'true', class: 'input-group-text')
         end + errors
       end
     end

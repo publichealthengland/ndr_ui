@@ -2,7 +2,7 @@ module NdrUi
   module Bootstrap
     # Allows us to display errors and warnings in a bootstrap-friendly way
     module InlineErrorsAndWarnings
-      # Tag::Base subclass for generating bootstrap span.help-block.
+      # Tag::Base subclass for generating bootstrap span.form-text.
       # Allows us to use generate the tag_id properly.
       class HelpBlock < ActionView::Helpers::Tags::Base
         def render(&block)
@@ -13,7 +13,7 @@ module NdrUi
               add_default_name_and_id(@options.fetch('html', {}))
             end
 
-          options = { class: 'help-block', data:  { feedback_for: feedback_for } }
+          options = { class: 'form-text', data: { feedback_for: feedback_for } }
           content_tag(:span, @template_object.capture(&block), options)
         end
       end

@@ -1,5 +1,34 @@
 module NdrUi
   module Bootstrap
+    # This provides bootstrap accordion helper methods
+    module AccordionHelper
+      # Creates an accordion wrapper and creates a new NdrUi::Bootstrap::Accordion instance
+      # Creates an plain or nested bootstrap accordion along with bootstrap_accordion_group
+      # method at NdrUi::Bootstrap::Accordion class.
+      #
+      # ==== Signatures
+      #
+      #   bootstrap_accordion_tag(dom_id) do |accordion|
+      #     #content for accordion items
+      #   end
+      #
+      # ==== Examples
+      #
+      #   <%= bootstrap_accordion_group :fruit do |fruit_accordion| %>
+      #   <% end %>
+      #   # => <div id="fruit" class="accordion"></div>
+      def bootstrap_accordion_tag(dom_id, options = {}, &_block)
+        return unless block_given?
+
+        options.stringify_keys!
+        accordion = ::NdrUi::Bootstrap::Accordion.new(dom_id, self)
+        seamless = options['seamless']
+        content_tag(:div, id: accordion.dom_id.to_s, class: "accordion#{' accordion-flush' if seamless}") do
+          yield(accordion)
+        end
+      end
+    end
+
     # Creates a plain or nested bootstrap accordion along with bootstrap_accordion_tag helper
     # method.
     # Produce the inner html code of an accordion item.
@@ -35,7 +64,7 @@ module NdrUi
     #   <div id="fruit" class="accordion">
     #     <div class="panel panel-default">
     #       <div class="panel-heading">
-    #         <a href="#fruit_1" data-parent="#fruit" data-toggle="collapse">Apple</a>
+    #         <a href="#fruit_1" data-bs-parent="#fruit" data-bs-toggle="collapse">Apple</a>
     #       </div>
     #       <div class="panel-collapse collapse" id="fruit_1">
     #         <div class="panel-body">
@@ -45,7 +74,7 @@ module NdrUi
     #     </div>
     #     <div class="panel panel-default">
     #       <div class="panel-heading">
-    #         <a href="#fruit_2" data-parent="#fruit" data-toggle="collapse">Orange</a>
+    #         <a href="#fruit_2" data-bs-parent="#fruit" data-bs-toggle="collapse">Orange</a>
     #       </div>
     #       <div class="panel-collapse collapse in" id="fruit_2">
     #         <div class="panel-body">
@@ -58,6 +87,7 @@ module NdrUi
     class Accordion
       attr_accessor :dom_id, :index
 
+      # rubocop:disable Rails/HelperInstanceVariable
       def initialize(accordion_id, template)
         @dom_id = accordion_id
         @template = template
@@ -66,13 +96,14 @@ module NdrUi
 
       def bootstrap_accordion_group(heading, options = {}, &block)
         return unless block_given?
+
         options.stringify_keys!
-        seamless = options['seamless']
         @index += 1
-        content = @template.capture(&block)
-        content = @template.content_tag('div', content, class: 'panel-body') unless seamless
-        @template.content_tag('div', class: 'panel panel-default') do
-          div_panel_heading(heading) + div_panel_collapse(content, options['open'])
+        content = @template.content_tag('div', class: 'accordion-body') do
+          @template.capture(&block)
+        end
+        @template.content_tag('div', class: 'accordion-item') do
+          accordion_header_tag(heading, options['open']) + accordion_collapse_tag(content, options['open'])
         end
       end
 
@@ -82,21 +113,23 @@ module NdrUi
         "#{@dom_id}_#{@index}"
       end
 
-      def div_panel_heading(heading)
-        @template.content_tag('div', class: 'panel-heading') do
-          @template.content_tag('h4', class: 'panel-title') do
-            @template.link_to(heading,
-                              "##{group_id}",
-                              'data-toggle': 'collapse', 'data-parent': "##{@dom_id}")
-          end
+      def accordion_header_tag(heading, open_by_default)
+        @template.content_tag('h2', class: 'accordion-header') do
+          @template.button_tag(heading,
+                               class: "accordion-button#{' collapsed' unless open_by_default}",
+                               type: :button,
+                               'data-bs-toggle': 'collapse',
+                               'data-bs-target': "##{group_id}")
         end
       end
 
-      def div_panel_collapse(content, open_by_default)
+      def accordion_collapse_tag(content, open_by_default)
         @template.content_tag('div', content,
                               id: group_id,
-                              class: "panel-collapse collapse#{' in' if open_by_default}")
+                              class: "accordion-collapse collapse#{' show' if open_by_default}",
+                              'data-bs-parent': "##{@dom_id}")
       end
+      # rubocop:enable Rails/HelperInstanceVariable
     end
   end
 end

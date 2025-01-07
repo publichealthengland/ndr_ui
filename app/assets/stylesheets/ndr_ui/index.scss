@@ -1,5 +1,3 @@
-// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
-@import "bootstrap-sprockets";
 @import "bootstrap";
 
 // Fieldsets don't behave properly with Bootstrap in Firefox
@@ -12,7 +10,7 @@
 
 // for input fields with input-addons, remove background and border when the form is readonly. 
 .input-group {
-  .form-control-static + .input-group-addon {
+  .form-control-plaintext + .input-group-text {
     background: none;
     border:0;
   }

@@ -61,7 +61,7 @@ class ReadonlyTest < ActionView::TestCase
       end
 
     assert_select 'input[type=text]#post_created_at'
-    assert_select 'p.form-control-static', 0
+    assert_select 'p.form-control-plaintext', 0
 
     reset_output_buffer!
     @output_buffer =
@@ -69,7 +69,7 @@ class ReadonlyTest < ActionView::TestCase
         form.text_field :created_at
       end
     assert_select 'input[type=text]#post_created_at', 0
-    assert_select 'p.form-control-static', text: time.to_s
+    assert_select 'p.form-control-plaintext', text: time.to_s
   end
 
   test 'readonly fields should show custom value if given' do
@@ -81,7 +81,7 @@ class ReadonlyTest < ActionView::TestCase
         form.text_field :created_at, readonly_value: text
       end
     assert_select 'input[type=text]#post_created_at', 0
-    assert_select 'p.form-control-static', text: text.to_s
+    assert_select 'p.form-control-plaintext', text: text.to_s
   end
 
   test 'hidden fields should not display in readonly' do
@@ -94,7 +94,7 @@ class ReadonlyTest < ActionView::TestCase
       end
 
     assert_select 'input[type=hidden]#post_created_at'
-    assert_select 'p.form-control-static', 0
+    assert_select 'p.form-control-plaintext', 0
 
     reset_output_buffer!
     @output_buffer =
@@ -102,7 +102,7 @@ class ReadonlyTest < ActionView::TestCase
         form.hidden_field :created_at
       end
     assert_select 'input[type=hidden]#post_created_at', 0
-    assert_select 'p.form-control-static', 0
+    assert_select 'p.form-control-plaintext', 0
   end
 
   test 'readonly label should display translated text' do

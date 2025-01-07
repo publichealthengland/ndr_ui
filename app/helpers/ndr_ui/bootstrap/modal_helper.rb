@@ -50,6 +50,7 @@ module NdrUi
       #   # => <div class="modal-header">Check it out!!</div>
       def bootstrap_modal_header_tag(*args, &block)
         return bootstrap_modal_header_tag(capture(&block), *args) if block_given?
+
         options = args.extract_options!
         options.stringify_keys!
 
@@ -58,10 +59,11 @@ module NdrUi
         # end
 
         heading = content_tag(:h4, args.first, class: 'modal-title')
-        heading = button_tag(content_tag(:span, '×', "aria-hidden": 'true'),
-                             type: 'button', class: 'close', "data-dismiss": 'modal',
-                             "aria-label": 'Close') + heading if options.delete('dismissible')
-
+        if options.delete('dismissible')
+          heading = button_tag(content_tag(:span, '×', 'aria-hidden': 'true'),
+                               type: 'button', class: 'btn-close', 'data-bs-dismiss': 'modal',
+                               'aria-label': 'Close') + heading
+        end
         content_tag(:div, heading, class: 'modal-header')
       end
 
@@ -109,21 +111,21 @@ module NdrUi
       #   <%= bootstrap_modal_footer_tag('Button text', readonly: true)
       #   # =>
       #   <div class="modal-footer">
-      #     <button name="button" type="submit" class="btn btn-default" data-dismiss="modal">
+      #     <button name="button" type="submit" class="btn btn-default" data-bs-dismiss="modal">
       #       Close
       #     </button>
       #   </div>
       #
       #   <%= bootstrap_modal_footer_tag(readonly: false) do
-      #     button_tag('Non-readonly default', class: 'btn btn-default', "data-dismiss": 'modal') +
-      #       button_tag('Non-readonly primary', class: 'btn btn-primary', "data-dismiss": 'modal')
+      #     button_tag('Non-readonly default', class: 'btn btn-default', 'data-bs-dismiss': 'modal') +
+      #       button_tag('Non-readonly primary', class: 'btn btn-primary', 'data-bs-dismiss': 'modal')
       #   end %>
       #   # =>
       #   <div class="modal-footer">
-      #     <button name="button" type="submit" class="btn btn-default" data-dismiss="modal">
+      #     <button name="button" type="submit" class="btn btn-default" data-bs-dismiss="modal">
       #       Non-readonly default
       #     </button>
-      #     <button name="button" type="submit" class="btn btn-primary" data-dismiss="modal">
+      #     <button name="button" type="submit" class="btn btn-primary" data-bs-dismiss="modal">
       #       Non-readonly primary
       #     </button>
       #   </div>
@@ -131,7 +133,7 @@ module NdrUi
       #   <%= bootstrap_modal_footer_tag('Button text') %>
       #   # =>
       #   <div class="modal-footer">
-      #     <button name="button" type="submit" class="btn btn-default" data-dismiss="modal">
+      #     <button name="button" type="submit" class="btn btn-default" data-bs-dismiss="modal">
       #       Button text
       #     </button>
       #   </div>
@@ -139,7 +141,7 @@ module NdrUi
       #   <%= bootstrap_modal_footer_tag %>
       #   # =>
       #   <div class="modal-footer">
-      #     <button name="button" type="submit" class="btn btn-default" data-dismiss="modal">
+      #     <button name="button" type="submit" class="btn btn-default" data-bs-dismiss="modal">
       #       Don&#39;t save
       #     </button>
       #     <input type="submit" name="commit" value="Save" class="btn btn-primary"
@@ -189,7 +191,7 @@ module NdrUi
       #         Pear form
       #       </div>
       #       <div class="modal-footer">
-      #         <button type="button" class="btn btn-default" data-dismiss="modal">
+      #         <button type="button" class="btn btn-default" data-bs-dismiss="modal">
       #           Don't save
       #         </button>
       #         <input name="commit" class="btn-primary btn" data-disable-with="Saving&hellip;"
@@ -216,7 +218,7 @@ module NdrUi
       end
 
       def bootstrap_modal_button(label)
-        button_tag(label, class: 'btn btn-default', "data-dismiss": 'modal')
+        button_tag(label, class: 'btn btn-default', 'data-bs-dismiss': 'modal')
       end
 
       private

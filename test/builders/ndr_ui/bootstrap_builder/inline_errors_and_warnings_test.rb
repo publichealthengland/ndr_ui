@@ -23,13 +23,13 @@ class InlineErrorsAndWarningsTest < ActionView::TestCase
     end
   end
 
-  test 'each field should have a single help-block' do
+  test 'each field should have a single form-text' do
     post = Post.new
 
     bootstrap_form_for post do |form|
       assert_dom_equal(
         '<input class="form-control" type="text" name="post[created_at]" id="post_created_at" />' \
-        '<span class="help-block" data-feedback-for="post_created_at">' \
+        '<span class="form-text" data-feedback-for="post_created_at">' \
         '<span class="text-danger"></span><span class="text-warning"></span>' \
         '</span>',
         form.text_field(:created_at)
@@ -37,7 +37,7 @@ class InlineErrorsAndWarningsTest < ActionView::TestCase
     end
   end
 
-  test 'should wrap help-block when fields_for a collections' do
+  test 'should wrap form-text when fields_for a collections' do
     post = Post.new
 
     form_for post do |form|
@@ -52,7 +52,7 @@ class InlineErrorsAndWarningsTest < ActionView::TestCase
     bootstrap_form_for post do |form|
       assert_dom_equal(
         '<input class="form-control" type="text" name="post[sub_records][][created_at]" id="post_sub_records__created_at" />' \
-        '<span class="help-block" data-feedback-for="post_sub_records__created_at">' \
+        '<span class="form-text" data-feedback-for="post_sub_records__created_at">' \
         '<span class="text-danger"></span>' \
         '<span class="text-warning"></span>' \
         '</span>',
@@ -72,7 +72,7 @@ class InlineErrorsAndWarningsTest < ActionView::TestCase
     bootstrap_form_for post do |form|
       assert_dom_equal(
         '<input class="form-control" type="text" name="post[created_at]" id="post_created_at" />' \
-        '<span class="help-block" data-feedback-for="post_created_at">' \
+        '<span class="form-text" data-feedback-for="post_created_at">' \
         '<span class="text-danger"></span><span class="text-warning">some<br>message</span>' \
         '</span>',
         form.text_field(:created_at)
@@ -88,7 +88,7 @@ class InlineErrorsAndWarningsTest < ActionView::TestCase
     bootstrap_form_for post do |form|
       assert_dom_equal(
         '<input class="form-control" type="text" name="post[created_at]" id="post_created_at" />' \
-        '<span class="help-block" data-feedback-for="post_created_at">' \
+        '<span class="form-text" data-feedback-for="post_created_at">' \
         '<span class="text-danger">not<br>great</span><span class="text-warning"></span>' \
         '</span>',
         form.text_field(:created_at)
@@ -103,8 +103,8 @@ class InlineErrorsAndWarningsTest < ActionView::TestCase
     bootstrap_form_for post, readonly: true do |form|
       assert form.readonly?
       assert_dom_equal(
-        '<p class="form-control-static">2001-02-03 00:00:00 UTC</p>' \
-        '<span class="help-block" data-feedback-for="post_created_at">' \
+        '<p class="form-control-plaintext">2001-02-03 00:00:00 UTC</p>' \
+        '<span class="form-text" data-feedback-for="post_created_at">' \
         '<span class="text-danger">wrong</span><span class="text-warning"></span>' \
         '</span>',
         form.text_field(:created_at)
@@ -117,7 +117,7 @@ class InlineErrorsAndWarningsTest < ActionView::TestCase
 
     expected = <<~HTML.strip
       <input class="form-control" type="text" name="post[banner_image][url]"
-      id="post_banner_image_url" /><span class="help-block"
+      id="post_banner_image_url" /><span class="form-text"
       data-feedback-for="post_banner_image_url"></span>
     HTML
 
